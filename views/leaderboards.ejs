@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h3>Winners: </h3>
+    <div id="display_winners"></div>
+</body>
+<script>
+    fetch("/get-winners", {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+    })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            res.forEach((el, index) => {
+                document.getElementById("display_winners").innerHTML += `
+                <div class="winner_list">
+                Submission ${index + 1}: <br> Name: ${el.name} <br> Scholar id: ${el.scholarid} <br> Submission time: ${el.time} <br><br>
+                </div>
+            `
+            })
+        })
+</script>
+
+</html>

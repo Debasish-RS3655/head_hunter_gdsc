@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<script src="https://cdn.tailwindcss.com"></script>
+<html class="overflow-hidden">
+<div class="flex w-[100%] justify-between items-center md:-mt-16">
+    <img src="Group 563 (1).svg" alt="" class=" relative w-[30rem] h-[22rem] -left-32">
+    <img src="logo gdsc.svg" alt="" class="relative w-[30rem] h-[15rem] -top-10">
+    <img src="Group 573.svg" alt="" class="relative w-[30rem] h-[25rem] left-52 top-[4rem]">
+</div>
+<div class="flex md:justify-between">
+    <img src="dots.svg" alt="" class="relative md:w-52 md:h-72 md:-top-7 md:md:-left-16">
+    <div class="flex flex-col md:justify-center md:items-center md:-mt-40">
+        <h1 class="md:text-4xl font-semibold text-center">YOUR ANSWER IS <span> CORRECT!!</span></h1>
+        <h1 class="md:text-3xl font-semibold md:mt-5">CONGRATS</h1>
+        <img src="gifts 2.svg" alt="" class="md:w-36 md:h-36 md:-mt-2">
+        <div class="flex flex-col m-auto rounded-3xl md:w-[60vw] md:h-[16rem] md:p-5 shadow-2xl bg-[url('lines.svg')]">
+            <form action="#" class="flex flex-col md:space-y-7">
+                <h2 class="text-center md:text-2xl">Please enter the following about yourself</h2>
+                <div class=" md:space-x-7">
+
+                    <label for="name" class="md:ml-52 md:text-xl font-semibold">NAME :</label>
+                    <input type="text" id="name" class="border-2 border-black md:w-[50%] md:p-1">
+                </div>
+                <div class=" space-x-7">
+
+                    <label for="scholarid" class="md:ml-[10vw] md:text-xl md:font-semibold">SCHOLAR ID :</label>
+                    <input type="number" id="scholarid" class="border-2 border-black md:w-[50%] p-1">
+                </div>
+                <input type="button" id="submitBtn" value="SUBMIT"
+                    class="md:w-[15%] md:p-1 md:text-md m-auto rounded-lg bg-blue-600 text-white hover:text-blue-600 hover:bg-white hover:border-2 hover:border-blue-600 cursor-pointer">
+            </form>
+        </div>
+    </div>
+    <img src="dots.svg" alt="" class="relative md:w-52 md:h-72 md:top-32 md:-right-16">
+</div>
+<div class="flex justify-between items-center">
+
+    <img src="Group 563.svg" alt="" class="relative md:-mt-40 md:-left-10  md:top-32">
+    <!-- <a href="/leaderboards"><button  class="flex justify-center relative right-[25rem] m-auto w-72 p-2 text-lg rounded-lg bg-blue-600 text-white hover:text-blue-600 hover:bg-white hover:border-2 hover:border-blue-600 cursor-pointer mt-5">Click to view the leaderboards</button></a> -->
+</div>
+<script>
+    document.getElementById("submitBtn").addEventListener('click', () => {
+        fetch("./winner_submission", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+                name: document.getElementById("name").value,
+                scholarid: document.getElementById("scholarid").value,
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.error) {
+                    alert(`Error in submission: ${res.error}`);
+                    console.log(`Error in submission: ${res.error}`);
+                }
+                else {
+                    alert(`Your submission has been recorded: ${res.name}, ${res.scholarid}`);
+                    console.log(`Your submission has been recorded: ${res.name}, ${res.scholarid}`)
+                }
+            })
+            .catch(err => console.error("Error in fetching:", err))
+    })
+</script>
+
+</html>
