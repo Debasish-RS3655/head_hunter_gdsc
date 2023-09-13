@@ -1,6 +1,5 @@
 //simple crossword puzzle server
 //Debashish Buragohain
-
 const fs = require('fs');
 const express = require('express');
 const app = express();
@@ -19,10 +18,6 @@ console.log("Dataset retrieved length:", dataset.length)
 
 app.set("view engine", "ejs")
 app.engine('html', require('ejs').renderFile);
-//home page
-app.get("/", (req, res) => {
-    res.render("home");
-})
 
 app.post('/answer', (req, res) => {
     console.log("Received asnwer:", req.body.answer)
@@ -57,7 +52,7 @@ app.post("/winner_submission", (req, res) => {
         }
         else {
             //save the new person in the dataset
-            dataset.push({ name, scholarid })
+            dataset.push({ name, scholarid, time: new Date().toLocaleString() })
             fs.writeFileSync("./dataset/dataset.json", JSON.stringify(dataset), { encoding: 'utf-8' })
             res.json({
                 name: name,
@@ -68,7 +63,7 @@ app.post("/winner_submission", (req, res) => {
 })
 
 //option to get the leaderboards
-app.get("/leaderboards", (req, res) => {
+app.get(`/${correctAns}_winners`, (req, res) => {
     res.render("leaderboards");
 })
 
@@ -78,7 +73,7 @@ app.post("/get-winners", (req, res) => {
 })
 
 //crossword answer
-app.use(`/${correctAns}`, (req, res) => {
+app.get(`/${correctAns}`, (req, res) => {
     res.render("correct");
 })
 
@@ -87,7 +82,7 @@ app.use("/incorrect", (req, res) => {
 })
 
 app.use((req, res) => {
-    res.status(404).render("not-found");
+    res.status(404).send("The URL you entered must be invalid.");
 })
 
 app.listen(port, (err) => {
