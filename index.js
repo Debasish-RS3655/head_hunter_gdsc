@@ -14,8 +14,6 @@ let dataset = fs.readFileSync("./dataset/dataset.json", {
     flag: 'r'
 })
 dataset = JSON.parse(dataset);
-console.log("Dataset retrieved length:", dataset.length)
-
 app.set("view engine", "ejs")
 app.engine('html', require('ejs').renderFile);
 
@@ -31,8 +29,6 @@ app.post('/answer', (req, res) => {
 
 app.post("/winner_submission", (req, res) => {
     const { name, scholarid } = req.body;
-    console.log(req.body)
-    console.log(scholarid.length)
     if (!name || !scholarid) {
         res.json({ error: 'Invalid name or scholar id.' })
     }
